@@ -1,7 +1,7 @@
 use crate::environment::ActionId;
 use crate::tictactoe::cell::CellValue;
 
-#[derive(Debug)]
+#[derive(Debug, Ord, Eq, PartialEq, PartialOrd)]
 pub struct TicTacToeAction {
     cell_value: CellValue,
     cell_index: usize,

@@ -14,7 +14,7 @@ pub struct TicTacToeEnvironment {
 impl TicTacToeEnvironment {
     pub fn new() -> Self {
         TicTacToeEnvironment {
-            state: TicTacToeState::create_state_with_id(StateId(0)),
+            state: TicTacToeState::create_state_with_id(StateId(0)).unwrap(),
         }
     }
 
@@ -49,7 +49,7 @@ impl DPEnvironment for TicTacToeEnvironment {
         let num_states = TicTacToeState::max_state_id();
         for i in 0..num_states.0 {
             let state_id = StateId(i);
-            let state = TicTacToeState::create_state_with_id(state_id);
+            let state = TicTacToeState::create_state_with_id(state_id).unwrap();
             let actions = state.actions();
             let transitions = actions
                 .iter()
@@ -58,7 +58,6 @@ impl DPEnvironment for TicTacToeEnvironment {
                     StateTransition {
                         action_id: a.id(),
                         prob: ProbabilityT((actions.len() as f64).recip()),
-                        // TODO: `new_state_id` is 0 in most cases? This needs debugging!
                         new_state_id: new_state.id(),
                         reward: TicTacToeEnvironment::reward_for_state(&new_state),
                     }

@@ -130,16 +130,6 @@ impl TicTacToeState {
         Some(TicTacToeState { cells })
     }
 
-    pub fn id(&self) -> StateId {
-        let mut mult: usize = 1;
-        let mut state_id: usize = 0;
-        for cell_value in self.cells.iter() {
-            state_id += cell_value.value_id().0 * mult;
-            mult *= CellValue::num_values();
-        }
-        StateId(state_id)
-    }
-
     pub fn actions(&self) -> Vec<TicTacToeAction> {
         let mut actions = vec![];
         if self.is_terminal() {
@@ -164,6 +154,16 @@ impl TicTacToeState {
 impl State for TicTacToeState {
     fn is_terminal(&self) -> bool {
         self.has_winning_value() != CellValue::None || self.all_cells_set()
+    }
+
+    fn id(&self) -> StateId {
+        let mut mult: usize = 1;
+        let mut state_id: usize = 0;
+        for cell_value in self.cells.iter() {
+            state_id += cell_value.value_id().0 * mult;
+            mult *= CellValue::num_values();
+        }
+        StateId(state_id)
     }
 }
 
